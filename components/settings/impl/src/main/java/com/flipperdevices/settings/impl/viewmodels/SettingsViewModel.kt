@@ -10,7 +10,6 @@ import com.flipperdevices.core.share.ShareHelper
 import com.flipperdevices.core.ui.lifecycle.DecomposeViewModel
 import com.flipperdevices.settings.impl.R
 import com.flipperdevices.settings.impl.model.ExportState
-import com.flipperdevices.shake2report.api.Shake2ReportApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +23,6 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val dataStoreSettings: DataStore<Settings>,
     private val exportKeysHelper: ExportKeysHelper,
-    private val shake2ReportApi: Shake2ReportApi,
 ) : DecomposeViewModel(), LogTagProvider {
     override val TAG = "SettingsViewModel"
 
@@ -40,8 +38,6 @@ class SettingsViewModel @Inject constructor(
     fun getState() = settingsStateFlow.asStateFlow()
 
     fun getExportState(): StateFlow<ExportState> = exportStateFlow
-
-    fun getShake2ReportInitializationState(): StateFlow<Boolean> = shake2ReportApi.isInitialized()
 
     fun onSwitchDebug(value: Boolean) {
         viewModelScope.launch {

@@ -11,8 +11,5 @@ sealed class SettingsNavigationConfig {
     data object FileManager : SettingsNavigationConfig()
 
     @Serializable
-    data object Shake2Report : SettingsNavigationConfig()
-
-    @Serializable
     data object StressTest : SettingsNavigationConfig()
 }

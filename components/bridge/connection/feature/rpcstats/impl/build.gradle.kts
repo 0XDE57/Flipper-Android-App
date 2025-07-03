@@ -13,9 +13,6 @@ commonDependencies {
     implementation(projects.components.core.log)
     implementation(projects.components.core.ktx)
 
-    implementation(projects.components.analytics.metric.api)
-    implementation(projects.components.analytics.shake2report.api)
-
     implementation(projects.components.bridge.connection.feature.common.api)
     implementation(projects.components.bridge.connection.transport.common.api)
     implementation(projects.components.bridge.connection.feature.storageinfo.api)

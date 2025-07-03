@@ -14,8 +14,6 @@ import com.flipperdevices.core.log.error
 import com.flipperdevices.core.log.info
 import com.flipperdevices.core.progress.ProgressWrapperTracker
 import com.flipperdevices.core.ui.lifecycle.DecomposeViewModel
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.nfc.mfkey32.api.MfKey32Api
 import com.flipperdevices.nfc.mfkey32.screen.model.ErrorType
 import com.flipperdevices.nfc.mfkey32.screen.model.FoundedInformation
@@ -41,7 +39,6 @@ private const val TOTAL_PERCENT = 1.0f
 class MfKey32ViewModel @Inject constructor(
     private val nfcToolsApi: NfcToolsApi,
     private val mfKey32Api: MfKey32Api,
-    private val metricApi: MetricApi,
     private val fFeatureProvider: FFeatureProvider,
     storageProvider: FlipperStorageProvider
 ) : DecomposeViewModel(), LogTagProvider {
@@ -152,7 +149,7 @@ class MfKey32ViewModel @Inject constructor(
             mfKey32StateFlow.emit(MfKey32State.Error(ErrorType.NOT_FOUND_FILE))
             return false
         }
-        metricApi.reportSimpleEvent(SimpleEvent.MFKEY32)
+
         try {
             existedKeysStorage.load(fFileDownloadApi)
         } catch (exception: Throwable) {

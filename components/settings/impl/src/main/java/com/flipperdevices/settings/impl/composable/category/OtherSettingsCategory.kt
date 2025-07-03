@@ -28,7 +28,6 @@ fun OtherSettingsCategory(
         if (s2rInitialized) {
             ClickableElement(
                 iconId = R.drawable.ic_bug,
-                titleId = R.string.other_shake2report_open,
                 onClick = onReportBug
             )
         }

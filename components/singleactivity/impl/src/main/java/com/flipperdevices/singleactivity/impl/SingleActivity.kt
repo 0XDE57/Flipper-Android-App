@@ -27,8 +27,6 @@ import com.flipperdevices.core.ui.theme.LocalPallet
 import com.flipperdevices.core.ui.theme.viewmodel.ThemeViewModel
 import com.flipperdevices.deeplink.api.DeepLinkParser
 import com.flipperdevices.deeplink.model.Deeplink
-import com.flipperdevices.metric.api.MetricAndroidApi
-import com.flipperdevices.metric.api.events.SessionState
 import com.flipperdevices.rootscreen.api.LocalDeeplinkHandler
 import com.flipperdevices.rootscreen.api.LocalRootNavigation
 import com.flipperdevices.rootscreen.api.RootDecomposeComponent
@@ -45,9 +43,6 @@ class SingleActivity : AppCompatActivity(), LogTagProvider {
 
     @Inject
     lateinit var rootComponentFactory: RootDecomposeComponent.Factory
-
-    @Inject
-    lateinit var metricApi: MetricAndroidApi
 
     @Inject
     lateinit var onCreateHandlerDispatcher: OnCreateHandlerDispatcher
@@ -119,17 +114,14 @@ class SingleActivity : AppCompatActivity(), LogTagProvider {
 
     override fun onStart() {
         super.onStart()
-        metricApi.reportSessionState(SessionState.StartSession(this))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        metricApi.reportSessionState(SessionState.ConfigurationChanged(newConfig))
     }
 
     override fun onStop() {
         super.onStop()
-        metricApi.reportSessionState(SessionState.StopSession)
     }
 
     private suspend fun DeepLinkParser.parseOrLog(context: Context, intent: Intent): Deeplink? {

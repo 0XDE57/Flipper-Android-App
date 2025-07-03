@@ -12,8 +12,6 @@ import com.flipperdevices.core.log.error
 import com.flipperdevices.core.share.ShareHelper
 import com.flipperdevices.core.ui.lifecycle.DecomposeViewModel
 import com.flipperdevices.keyparser.api.KeyParser
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.share.api.CryptoStorageApi
 import com.flipperdevices.share.uploader.R
 import com.flipperdevices.uploader.models.ShareContent
@@ -35,7 +33,6 @@ class UploaderViewModel @AssistedInject constructor(
     private val keyParser: KeyParser,
     private val cryptoStorageApi: CryptoStorageApi,
     private val simpleKeyApi: SimpleKeyApi,
-    private val metricApi: MetricApi,
     @Assisted private val provideFlipperKeyPath: () -> FlipperKeyPath
 ) : DecomposeViewModel(), LogTagProvider {
     override val TAG: String = "UploaderViewModel"
@@ -79,7 +76,6 @@ class UploaderViewModel @AssistedInject constructor(
             runCatching {
                 val data = extractKeyContentForShare(content.flipperKey).openStream()
                     .use { it.readBytes() }
-                metricApi.reportSimpleEvent(SimpleEvent.SHARE_FILE)
                 ShareHelper.shareRawFile(
                     context = context,
                     data = data,
@@ -98,7 +94,6 @@ class UploaderViewModel @AssistedInject constructor(
         viewModelScope.launch {
             val contentLink = content.link
             if (contentLink != null) {
-                metricApi.reportSimpleEvent(SimpleEvent.SHARE_SHORT_LINK)
                 ShareHelper.shareText(
                     context = context,
                     title = getFlipperKeyName(),
@@ -119,7 +114,6 @@ class UploaderViewModel @AssistedInject constructor(
             name = flipperKey.mainFile.path.nameWithExtension
         )
         uploadedLink.onSuccess { link ->
-            metricApi.reportSimpleEvent(SimpleEvent.SHARE_LONG_LINK)
             ShareHelper.shareText(
                 context = context,
                 title = getFlipperKeyName(),

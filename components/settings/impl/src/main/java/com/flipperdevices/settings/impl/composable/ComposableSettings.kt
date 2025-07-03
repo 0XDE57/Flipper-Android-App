@@ -48,7 +48,6 @@ fun ComposableSettings(
     val context = LocalContext.current
 
     val settings by settingsViewModel.getState().collectAsState()
-    val s2rInitialized by settingsViewModel.getShake2ReportInitializationState().collectAsState()
     val exportState by settingsViewModel.getExportState().collectAsState()
     val notificationState by notificationViewModel.getNotificationToggleState().collectAsState()
 
@@ -85,10 +84,6 @@ fun ComposableSettings(
             ExportKeysCategory(
                 exportState = exportState,
                 onExport = { settingsViewModel.onMakeExport(context) }
-            )
-            OtherSettingsCategory(
-                s2rInitialized = s2rInitialized,
-                onReportBug = { onOpen(SettingsNavigationConfig.Shake2Report) }
             )
             @Suppress("ViewModelForwarding")
             VersionCategory(

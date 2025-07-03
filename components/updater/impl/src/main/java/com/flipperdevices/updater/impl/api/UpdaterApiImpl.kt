@@ -7,10 +7,6 @@ import com.flipperdevices.core.di.AppGraph
 import com.flipperdevices.core.log.LogTagProvider
 import com.flipperdevices.core.log.info
 import com.flipperdevices.faphub.installedtab.api.FapNeedUpdatePopUpHelper
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.complex.UpdateFlipperEnd
-import com.flipperdevices.metric.api.events.complex.UpdateFlipperStart
-import com.flipperdevices.metric.api.events.complex.UpdateStatus
 import com.flipperdevices.updater.api.UpdaterApi
 import com.flipperdevices.updater.impl.UpdaterTask
 import com.flipperdevices.updater.impl.tasks.FlipperUpdateImageHelper
@@ -39,7 +35,6 @@ class UpdaterApiImpl @Inject constructor(
     private val updateContentDownloader: MutableSet<UpdateContentDownloader>,
     private val subGhzProvisioningHelper: SubGhzProvisioningHelper,
     private val uploadToFlipperHelper: UploadToFlipperHelper,
-    private val metricApi: MetricApi,
     private val fapNeedUpdatePopUpHelper: FapNeedUpdatePopUpHelper,
     private val storageProvider: FlipperStorageProvider,
     private val fFeatureProvider: FFeatureProvider,
@@ -79,19 +74,18 @@ class UpdaterApiImpl @Inject constructor(
         )
         currentActiveTask = localActiveTask
 
-        metricApi.reportComplexEvent(
-            UpdateFlipperStart(
-                updateFromVersion = updateRequest.updateFrom.version,
-                updateToVersion = updateRequest.updateTo.version,
-                updateId = updateRequest.requestId
-            )
-        )
+        /*
+        updateFromVersion = updateRequest.updateFrom.version,
+        updateToVersion = updateRequest.updateTo.version,
+        updateId = updateRequest.requestId
+        */
 
         localActiveTask.start(updateRequest) {
             info { "Updater state update to $it" }
             withContext(NonCancellable) {
                 updatingState.emit(UpdatingStateWithRequest(it, request = updateRequest))
 
+                /*
                 val endReason: UpdateStatus? = when (it) {
                     UpdatingState.FailedDownload -> UpdateStatus.FAILED_DOWNLOAD
                     UpdatingState.FailedPrepare -> UpdateStatus.FAILED_PREPARE
@@ -99,15 +93,15 @@ class UpdaterApiImpl @Inject constructor(
                     else -> null
                 }
                 if (endReason != null) {
-                    metricApi.reportComplexEvent(
-                        UpdateFlipperEnd(
-                            updateFrom = updateRequest.updateFrom.version,
-                            updateTo = updateRequest.updateTo.version,
-                            updateId = updateRequest.requestId,
-                            updateStatus = endReason
-                        )
-                    )
+
+                    updateFrom = updateRequest.updateFrom.version,
+                    updateTo = updateRequest.updateTo.version,
+                    updateId = updateRequest.requestId,
+                    updateStatus = endReason
+
                 }
+                */
+
 
                 if (it.isFinalState) {
                     currentActiveTask?.onStop()
@@ -119,17 +113,15 @@ class UpdaterApiImpl @Inject constructor(
     }
 
     override suspend fun cancel(silent: Boolean) {
-        val updateRequest = updatingState.value.request
+        /*val updateRequest = updatingState.value.request
         if (updateRequest != null && !silent) {
-            metricApi.reportComplexEvent(
-                UpdateFlipperEnd(
-                    updateFrom = updateRequest.updateFrom.version,
-                    updateTo = updateRequest.updateTo.version,
-                    updateId = updateRequest.requestId,
-                    updateStatus = UpdateStatus.CANCELED
-                )
-            )
-        }
+
+            updateFrom = updateRequest.updateFrom.version,
+            updateTo = updateRequest.updateTo.version,
+            updateId = updateRequest.requestId,
+            updateStatus = UpdateStatus.CANCELED
+
+        }*/
         currentActiveTask?.onStop()
     }
 

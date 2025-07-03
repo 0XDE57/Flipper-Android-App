@@ -1,12 +1,9 @@
 import com.android.build.gradle.BaseExtension
 import com.flipperdevices.buildlogic.ApkConfig
-import com.flipperdevices.buildlogic.ApkConfig.IS_SENTRY_PUBLISH
-import io.sentry.android.gradle.extensions.SentryPluginExtension
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("io.sentry.android.gradle")
     id("flipper.lint")
     id("org.jetbrains.kotlin.plugin.compose")
 }
@@ -43,15 +40,6 @@ configure<BaseExtension> {
             )
         }
     }
-}
-
-configure<SentryPluginExtension> {
-    autoUploadProguardMapping.set(IS_SENTRY_PUBLISH)
-    telemetry.set(false)
-
-    ignoredBuildTypes.set(setOf("release", "debug"))
-
-    autoInstallation.enabled.set(false)
 }
 
 includeCommonKspConfigurationTo("ksp")

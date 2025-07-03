@@ -24,7 +24,5 @@ class NfcEditorApplication : Application() {
             )
 
         Timber.plant(Timber.DebugTree())
-        val shake2report = appComponent.shake2report.get()
-        shake2report.init()
     }
 }

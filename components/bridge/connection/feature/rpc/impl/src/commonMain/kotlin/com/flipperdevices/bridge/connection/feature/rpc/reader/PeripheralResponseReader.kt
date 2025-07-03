@@ -7,7 +7,6 @@ import com.flipperdevices.core.ktx.jre.withLock
 import com.flipperdevices.core.log.LogTagProvider
 import com.flipperdevices.core.log.error
 import com.flipperdevices.protobuf.Main
-import com.flipperdevices.shake2report.api.Shake2ReportApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,8 +22,7 @@ import kotlinx.coroutines.sync.Mutex
 
 class PeripheralResponseReader @AssistedInject constructor(
     @Assisted private val scope: CoroutineScope,
-    @Assisted private val restartRPCApi: FRestartRpcFeatureApi?,
-    private val sentryApi: Shake2ReportApi
+    @Assisted private val restartRPCApi: FRestartRpcFeatureApi?
 ) : LogTagProvider {
     override val TAG = "PeripheralResponseReader"
     private val mutex = Mutex()
@@ -64,7 +62,6 @@ class PeripheralResponseReader @AssistedInject constructor(
                 // ignore
             } catch (e: Exception) {
                 error(e) { "Failed parse stream" }
-                sentryApi.reportException(e, "protobuf_read")
                 restartRPCApi?.restartRpc()
             }
         }

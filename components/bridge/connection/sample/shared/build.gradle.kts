@@ -92,11 +92,6 @@ commonDependencies {
     api(projects.components.filemngr.transfer.api)
     api(projects.components.filemngr.transfer.impl)
 
-    api(projects.components.analytics.shake2report.api)
-    api(projects.components.analytics.shake2report.noop)
-    api(projects.components.analytics.metric.api)
-    api(projects.components.analytics.metric.noop)
-
     api(libs.kotlin.immutable.collections)
 
     implementation(projects.components.core.ui.res)

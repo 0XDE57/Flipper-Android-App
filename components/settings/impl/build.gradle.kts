@@ -15,8 +15,6 @@ dependencies {
     implementation(projects.components.core.ktx)
     implementation(projects.components.core.share)
     implementation(projects.components.core.activityholder)
-    implementation(projects.components.analytics.shake2report.api)
-    implementation(projects.components.analytics.metric.api)
     implementation(projects.components.core.ui.res)
     implementation(projects.components.core.ui.ktx)
     implementation(projects.components.core.ui.lifecycle)

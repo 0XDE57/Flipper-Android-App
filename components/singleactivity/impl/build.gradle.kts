@@ -21,7 +21,6 @@ dependencies {
     implementation(projects.components.unhandledexception.api)
     implementation(projects.components.rootscreen.api)
 
-    implementation(projects.components.analytics.metric.api)
     implementation(projects.components.bridge.synchronization.api)
 
     implementation(libs.annotations)

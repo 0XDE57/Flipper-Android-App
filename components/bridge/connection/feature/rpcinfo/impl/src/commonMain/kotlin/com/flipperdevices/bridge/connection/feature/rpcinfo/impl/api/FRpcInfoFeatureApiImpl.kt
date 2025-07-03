@@ -5,12 +5,10 @@ import com.flipperdevices.bridge.connection.feature.rpc.api.FRpcFeatureApi
 import com.flipperdevices.bridge.connection.feature.rpcinfo.api.FRpcInfoFeatureApi
 import com.flipperdevices.bridge.connection.feature.rpcinfo.impl.fullinforpc.DeprecatedFlipperFullInfoRpcApi
 import com.flipperdevices.bridge.connection.feature.rpcinfo.impl.fullinforpc.NewFlipperFullInfoRpcApi
-import com.flipperdevices.bridge.connection.feature.rpcinfo.impl.shaketoreport.FlipperInformationMapping
 import com.flipperdevices.bridge.connection.feature.rpcinfo.model.FlipperInformationStatus
 import com.flipperdevices.bridge.connection.feature.rpcinfo.model.FlipperRpcInformation
 import com.flipperdevices.core.ktx.jre.withLock
 import com.flipperdevices.core.log.LogTagProvider
-import com.flipperdevices.shake2report.api.Shake2ReportApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,8 +23,7 @@ import kotlinx.coroutines.sync.Mutex
 
 class FRpcInfoFeatureApiImpl @AssistedInject constructor(
     @Assisted private val rpcFeatureApi: FRpcFeatureApi,
-    @Assisted private val getInfoFeatureApi: FGetInfoFeatureApi?,
-    private val shake2ReportApi: Shake2ReportApi
+    @Assisted private val getInfoFeatureApi: FGetInfoFeatureApi?
 ) : FRpcInfoFeatureApi, LogTagProvider {
     override val TAG = "FlipperRpcInformationApi"
 
@@ -81,7 +78,6 @@ class FRpcInfoFeatureApiImpl @AssistedInject constructor(
                         it
                     }
                 }
-                shake2ReportApi.setExtra(FlipperInformationMapping.convert(rpcInformation))
             }
 
         rpcInformationFlow.update {

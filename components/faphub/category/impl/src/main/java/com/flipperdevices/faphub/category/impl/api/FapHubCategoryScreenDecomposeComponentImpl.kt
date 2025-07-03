@@ -16,8 +16,6 @@ import com.flipperdevices.faphub.errors.api.FapHubComposableErrorsRenderer
 import com.flipperdevices.faphub.installation.button.api.FapButtonSize
 import com.flipperdevices.faphub.installation.button.api.FapInstallationUIApi
 import com.flipperdevices.faphub.installation.button.api.toFapButtonConfig
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.ui.decompose.DecomposeOnBackParameter
 import com.flipperdevices.ui.decompose.ScreenDecomposeComponent
 import dagger.assisted.Assisted
@@ -31,7 +29,6 @@ class FapHubCategoryScreenDecomposeComponentImpl @AssistedInject constructor(
     @Assisted private val navigation: StackNavigation<FapCategoryNavigationConfig>,
     @Assisted private val onBack: DecomposeOnBackParameter,
     private val categoryViewModelFactory: FapHubCategoryViewModel.Factory,
-    private val metricApi: MetricApi,
     private val errorsRenderer: FapHubComposableErrorsRenderer,
     private val fapInstallationUIApi: FapInstallationUIApi
 ) : ScreenDecomposeComponent(componentContext) {
@@ -51,7 +48,6 @@ class FapHubCategoryScreenDecomposeComponentImpl @AssistedInject constructor(
                 navigation.pushToFront(FapCategoryNavigationConfig.Search)
             },
             onOpenFapItem = {
-                metricApi.reportSimpleEvent(SimpleEvent.OPEN_FAPHUB_APP, it.applicationAlias)
                 navigation.pushToFront(FapCategoryNavigationConfig.FapScreen(it.id))
             },
             errorsRenderer = errorsRenderer,

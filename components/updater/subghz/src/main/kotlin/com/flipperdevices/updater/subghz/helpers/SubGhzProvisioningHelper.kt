@@ -9,16 +9,10 @@ import com.flipperdevices.core.log.LogTagProvider
 import com.flipperdevices.core.log.error
 import com.flipperdevices.core.log.info
 import com.flipperdevices.core.progress.copyWithProgress
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.complex.RegionSource
-import com.flipperdevices.metric.api.events.complex.SubGhzProvisioningEvent
 import com.flipperdevices.protobuf.Region
 import com.flipperdevices.updater.api.DownloaderApi
 import com.flipperdevices.updater.subghz.model.FailedUploadSubGhzException
-import com.flipperdevices.updater.subghz.model.RegionProvisioning
-import com.flipperdevices.updater.subghz.model.RegionProvisioningSource
 import com.squareup.anvil.annotations.ContributesBinding
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.encode
 import okio.buffer
@@ -39,7 +33,6 @@ interface SubGhzProvisioningHelper {
 class SubGhzProvisioningHelperImpl @Inject constructor(
     private val downloaderApi: DownloaderApi,
     private val regionProvisioningHelper: RegionProvisioningHelper,
-    private val metricApi: MetricApi,
     private val skipProvisioningHelper: SkipProvisioningHelper
 ) : SubGhzProvisioningHelper, LogTagProvider {
     override val TAG = "SubGhzProvisioningHelper"
@@ -100,30 +93,6 @@ class SubGhzProvisioningHelperImpl @Inject constructor(
             throw FailedUploadSubGhzException()
         }
 
-        reportMetric(providedRegions, providedRegion, source ?: RegionProvisioningSource.DEFAULT)
     }
 
-    private fun reportMetric(
-        regionProvisioning: RegionProvisioning,
-        providedRegion: String?,
-        source: RegionProvisioningSource
-    ) {
-        metricApi.reportComplexEvent(
-            SubGhzProvisioningEvent(
-                regionNetwork = regionProvisioning.regionFromNetwork,
-                regionSimOne = regionProvisioning.regionFromSim,
-                regionIp = regionProvisioning.regionFromIp,
-                regionSystem = regionProvisioning.regionSystem,
-                regionProvided = providedRegion,
-                regionSource = when (source) {
-                    RegionProvisioningSource.SIM_NETWORK -> RegionSource.SIM_NETWORK
-                    RegionProvisioningSource.SIM_COUNTRY -> RegionSource.SIM_COUNTRY
-                    RegionProvisioningSource.GEO_IP -> RegionSource.GEO_IP
-                    RegionProvisioningSource.SYSTEM -> RegionSource.SYSTEM
-                    RegionProvisioningSource.DEFAULT -> RegionSource.DEFAULT
-                },
-                isRoaming = regionProvisioning.isRoaming
-            )
-        )
-    }
 }

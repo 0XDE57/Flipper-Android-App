@@ -45,8 +45,6 @@ class FlipperApplication : Application(), SingletonImageLoader.Factory, LogTagPr
 
         if (BuildConfig.INTERNAL) {
             Timber.plant(Timber.DebugTree())
-            val shake2report = ComponentHolder.component<MainComponent>().shake2report.get()
-            shake2report.init()
         }
         setUp()
 

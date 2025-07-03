@@ -21,7 +21,6 @@ commonDependencies {
     implementation(projects.components.bridge.connection.feature.getinfo.api)
 
     implementation(projects.components.bridge.connection.pbutils)
-    implementation(projects.components.analytics.shake2report.api)
 
     implementation(libs.kotlin.immutable.collections)
     implementation(libs.kotlin.coroutines)

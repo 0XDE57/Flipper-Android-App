@@ -1,13 +1,9 @@
 package com.flipperdevices.updater.card.viewmodel
 
 import com.flipperdevices.core.ui.lifecycle.DecomposeViewModel
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.complex.UpdateFlipperEnd
-import com.flipperdevices.metric.api.events.complex.UpdateStatus
 import com.flipperdevices.updater.api.UpdateStateApi
 import com.flipperdevices.updater.api.UpdaterApi
 import com.flipperdevices.updater.model.FlipperUpdateState
-import com.flipperdevices.updater.model.UpdatingState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +13,6 @@ import javax.inject.Inject
 
 class UpdateStateViewModel @Inject constructor(
     private val updaterApi: UpdaterApi,
-    private val metricApi: MetricApi,
     private val updateStateApi: UpdateStateApi
 ) : DecomposeViewModel() {
     private val flipperStateFlow = updateStateApi.getFlipperUpdateState(viewModelScope)
@@ -25,6 +20,7 @@ class UpdateStateViewModel @Inject constructor(
 
     init {
         updaterApi.getState().onEach {
+            /*
             val updateRequest = it.request
             val endStatus = when (it.state) {
                 UpdatingState.Complete -> UpdateStatus.COMPLETED
@@ -40,7 +36,7 @@ class UpdateStateViewModel @Inject constructor(
                         updateStatus = endStatus
                     )
                 )
-            }
+            }*/
         }.launchIn(viewModelScope)
     }
 
@@ -49,4 +45,14 @@ class UpdateStateViewModel @Inject constructor(
     fun onDismissUpdateDialog() {
         updaterApi.resetState()
     }
+}
+
+//taken from: .../metric/api/events/complex/UpdateFlipperEnd.kt
+enum class UpdateStatus(val id: Int) {
+    COMPLETED(id = 1),
+    CANCELED(id = 2),
+    FAILED_DOWNLOAD(id = 3),
+    FAILED_PREPARE(id = 4),
+    FAILED_UPLOAD(id = 5),
+    FAILED(id = 6)
 }

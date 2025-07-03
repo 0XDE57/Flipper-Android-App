@@ -29,7 +29,6 @@ dependencies {
     implementation(projects.components.bridge.connection.feature.common.api)
     implementation(projects.components.bridge.connection.feature.storage.api)
 
-    implementation(projects.components.analytics.metric.api)
     implementation(projects.components.deeplink.api)
     implementation(projects.components.bottombar.api)
 

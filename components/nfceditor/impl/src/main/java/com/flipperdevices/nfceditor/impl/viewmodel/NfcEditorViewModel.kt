@@ -12,8 +12,6 @@ import com.flipperdevices.keyedit.api.NotSavedFlipperKey
 import com.flipperdevices.keyedit.api.NotSavedFlipperKeyApi
 import com.flipperdevices.keyparser.api.KeyParser
 import com.flipperdevices.keyparser.api.model.FlipperKeyParsed
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.nfceditor.impl.model.NfcEditorCellLocation
 import com.flipperdevices.nfceditor.impl.model.NfcEditorState
 import dagger.assisted.Assisted
@@ -32,7 +30,6 @@ class NfcEditorViewModel @AssistedInject constructor(
     private val updateKeyApi: UpdateKeyApi,
     private val synchronizationApi: SynchronizationApi,
     private val simpleKeyApi: SimpleKeyApi,
-    private val metricApi: MetricApi,
     private val notSavedFlipperKeyApi: NotSavedFlipperKeyApi
 ) : DecomposeViewModel(), LogTagProvider {
     override val TAG = "NfcEditorViewModel"
@@ -105,7 +102,6 @@ class NfcEditorViewModel @AssistedInject constructor(
             )
             updateKeyApi.updateKey(flipperKey, newFlipperKey)
             synchronizationApi.startSynchronization(force = true)
-            metricApi.reportSimpleEvent(SimpleEvent.SAVE_DUMP)
             onEndAction()
         }
     }
@@ -125,7 +121,6 @@ class NfcEditorViewModel @AssistedInject constructor(
                 additionalFiles = listOf(),
                 notes = newFlipperKey.notes
             )
-            metricApi.reportSimpleEvent(SimpleEvent.SAVE_DUMP)
             onEndAction(notSavedKey)
         }
     }

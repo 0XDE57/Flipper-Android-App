@@ -13,8 +13,6 @@ import com.flipperdevices.faphub.installedtab.api.FapInstalledApi
 import com.flipperdevices.main.impl.composable.ComposableFapHubMainScreen
 import com.flipperdevices.main.impl.model.FapHubNavigationConfig
 import com.flipperdevices.main.impl.viewmodel.MainViewModel
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.ui.decompose.ScreenDecomposeComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -27,7 +25,6 @@ class MainScreenDecomposeComponentImpl @AssistedInject constructor(
     @Assisted private val deeplink: Deeplink.BottomBar.AppsTab.MainScreen?,
     private val catalogTabApi: CatalogTabApi,
     private val installedApi: FapInstalledApi,
-    private val metricApi: MetricApi,
     private val mainViewModelFactory: MainViewModel.Factory
 ) : ScreenDecomposeComponent(componentContext) {
 
@@ -45,14 +42,9 @@ class MainScreenDecomposeComponentImpl @AssistedInject constructor(
             catalogTabComposable = {
                 catalogTabApi.ComposableCatalogTab(
                     onOpenFapItem = {
-                        metricApi.reportSimpleEvent(
-                            SimpleEvent.OPEN_FAPHUB_APP,
-                            it.applicationAlias
-                        )
                         navigation.pushToFront(FapHubNavigationConfig.FapScreen(it.id))
                     },
                     onCategoryClick = {
-                        metricApi.reportSimpleEvent(SimpleEvent.OPEN_FAPHUB_CATEGORY, it.name)
                         navigation.pushToFront(FapHubNavigationConfig.Category(it))
                     },
                     componentContext = this
@@ -61,14 +53,12 @@ class MainScreenDecomposeComponentImpl @AssistedInject constructor(
             installedTabComposable = {
                 installedApi.ComposableInstalledTab(
                     onOpenFapItem = {
-                        metricApi.reportSimpleEvent(SimpleEvent.OPEN_FAPHUB_APP, it)
                         navigation.pushToFront(FapHubNavigationConfig.FapScreen(it))
                     },
                     componentContext = this
                 )
             },
             onOpenSearch = {
-                metricApi.reportSimpleEvent(SimpleEvent.OPEN_FAPHUB_SEARCH)
                 navigation.pushToFront(FapHubNavigationConfig.Search)
             },
             installedNotificationCount = readyToUpdateCount,

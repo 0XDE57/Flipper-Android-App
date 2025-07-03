@@ -45,11 +45,6 @@ dependencies {
     implementation(libs.wear)
     implementation(libs.wear.gms)
 
-    implementation(projects.components.analytics.shake2report.api)
-    releaseImplementation(projects.components.analytics.shake2report.noop)
-    debugImplementation(projects.components.analytics.shake2report.impl)
-    internalImplementation(projects.components.analytics.shake2report.impl)
-
     // Compose
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)

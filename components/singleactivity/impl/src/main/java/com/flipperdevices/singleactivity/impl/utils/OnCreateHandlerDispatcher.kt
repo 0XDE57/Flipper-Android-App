@@ -7,8 +7,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.flipperdevices.core.ktx.jre.FlipperDispatchers
 import com.flipperdevices.core.log.LogTagProvider
 import com.flipperdevices.core.log.error
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.selfupdater.api.SelfUpdaterApi
 import com.flipperdevices.unhandledexception.api.UnhandledExceptionApi
 import kotlinx.coroutines.launch
@@ -19,14 +17,12 @@ private var appOpenReported = false
 
 class OnCreateHandlerDispatcher @Inject constructor(
     private val unhandledExceptionApiProvider: Provider<UnhandledExceptionApi>,
-    private val selfUpdaterApiProvider: Provider<SelfUpdaterApi>,
-    private val metricApi: MetricApi
+    private val selfUpdaterApiProvider: Provider<SelfUpdaterApi>
 ) : LogTagProvider {
     override val TAG = "OnCreateHandlerDispatcher"
 
     fun onCreate(lifecycleOwner: LifecycleOwner) {
         if (!appOpenReported) {
-            metricApi.reportSimpleEvent(SimpleEvent.APP_OPEN)
             appOpenReported = true
         }
 

@@ -25,7 +25,6 @@ dependencies {
     implementation(projects.components.wearable.wearrootscreen.api)
 
     implementation(libs.wear)
-    implementation(libs.wear.gms)
     implementation(libs.wear.interaction.phone)
     implementation(libs.wear.interaction.remote)
 

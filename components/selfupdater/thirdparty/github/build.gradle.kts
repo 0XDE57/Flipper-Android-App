@@ -1,5 +1,3 @@
-import com.flipperdevices.buildlogic.ApkConfig.IS_GOOGLE_FEATURE_AVAILABLE
-
 plugins {
     id("flipper.android-lib")
     id("flipper.anvil")
@@ -9,11 +7,11 @@ plugins {
 android.namespace = "com.flipperdevices.selfupdater.thirdparty.github"
 
 android {
-    val isGoogleFeatureAvailable = project.IS_GOOGLE_FEATURE_AVAILABLE.toString()
+    //val isGoogleFeatureAvailable = "false"
 
     buildTypes {
         defaultConfig {
-            buildConfigField("boolean", "IS_GOOGLE_FEATURE_AVAILABLE", isGoogleFeatureAvailable)
+            //buildConfigField("boolean", "IS_GOOGLE_FEATURE_AVAILABLE", isGoogleFeatureAvailable)
         }
     }
 }

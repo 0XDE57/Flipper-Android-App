@@ -18,8 +18,6 @@ import com.flipperdevices.faphub.report.api.FapReportArgument
 import com.flipperdevices.faphub.target.api.FlipperTargetProviderApi
 import com.flipperdevices.inappnotification.api.InAppNotificationStorage
 import com.flipperdevices.inappnotification.api.model.InAppNotification
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -45,8 +43,7 @@ class FapScreenViewModel @AssistedInject constructor(
     private val stateManager: FapInstallationStateManager,
     private val targetProviderApi: FlipperTargetProviderApi,
     private val fapHubHideApi: FapHubHideItemApi,
-    private val inAppNotificationStorage: InAppNotificationStorage,
-    private val metricApi: MetricApi
+    private val inAppNotificationStorage: InAppNotificationStorage
 ) : DecomposeViewModel(), LogTagProvider {
     override val TAG = "FapScreenViewModel"
 
@@ -85,10 +82,6 @@ class FapScreenViewModel @AssistedInject constructor(
             warn { "#onPressHide calls when fapScreenLoadingStateFlow is null or not loaded" }
             return
         }
-        metricApi.reportSimpleEvent(
-            SimpleEvent.HIDE_FAPHUB_APP,
-            loadingState.fapItem.applicationAlias
-        )
         viewModelScope.launch {
             if (isHidden) {
                 fapHubHideApi.unHideItem(loadingState.fapItem.id)

@@ -29,18 +29,10 @@ dependencies {
     implementation(projects.components.keyedit.api)
     implementation(projects.components.keyedit.noop)
 
-    implementation(projects.components.analytics.metric.api)
-    implementation(projects.components.analytics.metric.noop)
-
     implementation(projects.components.bridge.dao.api)
     implementation(projects.components.bridge.dao.impl)
     implementation(projects.components.bridge.synchronization.api)
     implementation(projects.components.bridge.synchronization.stub)
-
-    implementation(projects.components.analytics.shake2report.api)
-    releaseImplementation(projects.components.analytics.shake2report.noop)
-    debugImplementation(projects.components.analytics.shake2report.impl)
-    internalImplementation(projects.components.analytics.shake2report.impl)
 
     implementation(libs.appcompat)
 

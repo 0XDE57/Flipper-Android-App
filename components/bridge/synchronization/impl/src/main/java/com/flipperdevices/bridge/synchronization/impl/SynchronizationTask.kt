@@ -5,7 +5,6 @@ import com.flipperdevices.bridge.connection.feature.provider.api.getSync
 import com.flipperdevices.bridge.connection.feature.storage.api.FStorageFeatureApi
 import com.flipperdevices.bridge.connection.feature.storage.api.fm.FFileStorageMD5Api
 import com.flipperdevices.bridge.dao.api.delegates.key.SimpleKeyApi
-import com.flipperdevices.bridge.dao.api.model.FlipperKeyType
 import com.flipperdevices.bridge.synchronization.api.SynchronizationState
 import com.flipperdevices.bridge.synchronization.impl.di.TaskSynchronizationComponent
 import com.flipperdevices.bridge.synchronization.impl.executor.DiffKeyExecutor
@@ -22,8 +21,6 @@ import com.flipperdevices.core.log.info
 import com.flipperdevices.core.progress.DetailedProgressListener
 import com.flipperdevices.core.progress.DetailedProgressWrapperTracker
 import com.flipperdevices.core.ui.lifecycle.FOneTimeExecutionBleTask
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.complex.SynchronizationEnd
 import com.flipperdevices.nfc.mfkey32.api.MfKey32Api
 import com.flipperdevices.wearable.sync.handheld.api.SyncWearableApi
 import com.squareup.anvil.annotations.ContributesBinding
@@ -54,7 +51,6 @@ interface SynchronizationTask {
 class SynchronizationTaskBuilder @Inject constructor(
     private val featureProvider: FFeatureProvider,
     private val simpleKeyApi: SimpleKeyApi,
-    private val metricApi: MetricApi,
     private val syncWearableApi: SyncWearableApi,
     private val mfKey32Api: MfKey32Api
 ) : SynchronizationTask.Builder {
@@ -62,7 +58,6 @@ class SynchronizationTaskBuilder @Inject constructor(
         return SynchronizationTaskImpl(
             featureProvider,
             simpleKeyApi,
-            metricApi,
             syncWearableApi,
             mfKey32Api
         )
@@ -74,7 +69,6 @@ private const val START_SYNCHRONIZATION_PERCENT = 0.01f
 class SynchronizationTaskImpl(
     private val featureProvider: FFeatureProvider,
     private val simpleKeyApi: SimpleKeyApi,
-    private val metricApi: MetricApi,
     private val syncWearableApi: SyncWearableApi,
     private val mfKey32Api: MfKey32Api
 ) : FOneTimeExecutionBleTask<Unit, SynchronizationState>(),
@@ -190,20 +184,12 @@ class SynchronizationTaskImpl(
         storageFeatureApi: FStorageFeatureApi,
         progressTracker: DetailedProgressWrapperTracker
     ) = withContext(FlipperDispatchers.workStealingDispatcher) {
-        val startSynchronizationTime = System.currentTimeMillis()
         val taskComponent = TaskSynchronizationComponent.ManualFactory
             .create(
                 deps = ComponentHolder.component(),
                 storageFeatureApi = storageFeatureApi
             )
 
-        val keysChanged = taskComponent.keysSynchronization.syncKeys(
-            DetailedProgressWrapperTracker(
-                min = 0f,
-                max = 0.90f,
-                progressListener = progressTracker
-            )
-        )
         taskComponent.favoriteSynchronization.syncFavorites(
             DetailedProgressWrapperTracker(
                 min = 0.90f,
@@ -211,8 +197,6 @@ class SynchronizationTaskImpl(
                 progressListener = progressTracker
             )
         )
-        val endSynchronizationTime = System.currentTimeMillis() - startSynchronizationTime
-        reportSynchronizationEnd(endSynchronizationTime, keysChanged)
 
         try {
             syncWearableApi.updateWearableIndex()
@@ -222,18 +206,4 @@ class SynchronizationTaskImpl(
         progressTracker.onProgress(1.0f, SynchronizationTask.SynchronizationFinishedProgressDetail)
     }
 
-    private suspend fun reportSynchronizationEnd(totalTime: Long, keysChanged: Int) {
-        val keys = simpleKeyApi.getAllKeys().groupBy { it.path.keyType }
-        metricApi.reportComplexEvent(
-            SynchronizationEnd(
-                subghzCount = keys[FlipperKeyType.SUB_GHZ]?.size ?: 0,
-                rfidCount = keys[FlipperKeyType.RFID]?.size ?: 0,
-                nfcCount = keys[FlipperKeyType.NFC]?.size ?: 0,
-                infraredCount = keys[FlipperKeyType.INFRARED]?.size ?: 0,
-                iButtonCount = keys[FlipperKeyType.I_BUTTON]?.size ?: 0,
-                synchronizationTimeMs = totalTime,
-                changesCount = keysChanged
-            )
-        )
-    }
 }

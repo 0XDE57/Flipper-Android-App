@@ -22,8 +22,6 @@ import com.flipperdevices.keyscreen.model.DeleteState
 import com.flipperdevices.keyscreen.model.FavoriteState
 import com.flipperdevices.keyscreen.model.KeyScreenState
 import com.flipperdevices.keyscreen.model.ShareState
-import com.flipperdevices.metric.api.MetricApi
-import com.flipperdevices.metric.api.events.SimpleEvent
 import com.flipperdevices.nfceditor.api.NfcEditorApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -53,7 +51,6 @@ class KeyStateHelperImpl @AssistedInject constructor(
     private val deleteKeyApi: DeleteKeyApi,
     private val favoriteApi: FavoriteApi,
     private val keyParser: KeyParser,
-    private val metricApi: MetricApi,
     private val updaterKeyApi: UpdateKeyApi,
     private val keyEditorApi: NfcEditorApi,
     private val fFeatureProvider: FFeatureProvider
@@ -141,7 +138,6 @@ class KeyStateHelperImpl @AssistedInject constructor(
     }
 
     override fun onOpenEdit(onEndAction: (FlipperKeyPath) -> Unit) {
-        metricApi.reportSimpleEvent(SimpleEvent.OPEN_EDIT)
         val currentState = keyScreenState.value
         if (currentState is KeyScreenState.Ready) {
             val flipperKeyPath = currentState.flipperKey.getKeyPath()
