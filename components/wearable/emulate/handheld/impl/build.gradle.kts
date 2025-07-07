@@ -28,13 +28,11 @@ dependencies {
     implementation(projects.components.bridge.connection.orchestrator.api)
 
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.play.services)
 
     // Dagger deps
     implementation(libs.dagger)
 
     implementation(libs.wear)
-    implementation(libs.wear.gms)
 
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.service)

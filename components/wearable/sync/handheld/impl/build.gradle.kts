@@ -15,8 +15,5 @@ dependencies {
 
     implementation(projects.components.bridge.dao.api)
 
-    implementation(libs.wear.gms)
-
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.play.services)
 }

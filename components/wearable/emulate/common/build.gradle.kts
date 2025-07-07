@@ -12,6 +12,4 @@ dependencies {
     implementation(projects.components.bridge.connection.pbutils)
 
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.play.services)
-    implementation(libs.wear.gms)
 }

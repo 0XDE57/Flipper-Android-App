@@ -10,7 +10,6 @@ dependencies {
     implementation(projects.components.bridge.dao.api)
 
     implementation(libs.kotlin.coroutines)
-    implementation(libs.wear.gms)
 
     implementation(libs.decompose)
 }

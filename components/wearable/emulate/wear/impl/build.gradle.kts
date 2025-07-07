@@ -27,12 +27,9 @@ dependencies {
     implementation(projects.components.keyemulate.api)
 
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.play.services)
-
     implementation(libs.datastore)
 
     implementation(libs.wear)
-    implementation(libs.wear.gms)
     implementation(libs.wear.interaction.phone)
 
     // Compose

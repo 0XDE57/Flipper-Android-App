@@ -29,8 +29,6 @@ dependencies {
     implementation(libs.lifecycle.compose)
     implementation(libs.decompose)
 
-    implementation(libs.gms.firebase)
-    implementation(libs.kotlin.coroutines.play.services)
     implementation(libs.kotlin.coroutines)
 
     implementation(libs.appcompat)

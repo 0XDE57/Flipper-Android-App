@@ -43,7 +43,6 @@ dependencies {
     implementation(libs.splashscreen)
 
     implementation(libs.wear)
-    implementation(libs.wear.gms)
 
     // Compose
     implementation(libs.compose.activity)
@@ -56,7 +55,6 @@ dependencies {
     implementation(libs.lifecycle.compose)
 
     implementation(libs.kotlin.immutable.collections)
-    implementation(libs.kotlin.coroutines.play.services)
 
     // Dagger deps
     implementation(libs.dagger)

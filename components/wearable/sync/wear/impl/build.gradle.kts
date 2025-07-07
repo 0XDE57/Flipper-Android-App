@@ -29,7 +29,6 @@ dependencies {
     implementation(libs.wear.interaction.remote)
 
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.play.services)
     implementation(libs.kotlin.immutable.collections)
 
     // Compose
