@@ -3,7 +3,7 @@
     <string name="firstpair_tos_title">Turn On Bluetooth \non your Flipper</string>
     <string name="firstpair_tos_description">Settings > Bluetooth > Switch On</string>
     <string name="firstpair_tos_button">Connect</string>
-    <string name="firstpair_tos_footer">By tapping Connect you agree with our [Terms Of Service](https://flipp.dev/flipper-app-terms-of-service) and [Privacy Policy](https://flipp.dev/flipper-app-privacy-policy)</string>
+    <string name="firstpair_tos_footer">This is NOT official Flipper. No data is collected.</string>
     <string name="firstpair_search_flipper_status">Flipper status</string>
     <string name="firstpair_search_flipper_model_zero">Flipper Zero</string>
     <string name="firstpair_search_connect_button">Connect</string>
