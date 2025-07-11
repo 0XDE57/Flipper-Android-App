@@ -53,7 +53,7 @@ class BLEDeviceViewModel @Inject constructor(
     private suspend fun startBLEDiscover() {
         info { "Start ble scan" }
         state.emit(ScanState.Searching)
-        scanner.findFlipperDevices()
+        scanner.findFlipperDevices(false)
             .catch { exception ->
                 error(exception) { "Exception while search devices" }
             }

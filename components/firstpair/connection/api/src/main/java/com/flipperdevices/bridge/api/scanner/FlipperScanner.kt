@@ -12,6 +12,11 @@ interface FlipperScanner {
     fun findFlipperDevices(): Flow<Iterable<DiscoveredBluetoothDevice>>
 
     /**
+     * @return optional filter to flipper or all devices. Remember previous remembered devices
+     */
+    fun findFlipperDevices(applyFilter: Boolean): Flow<Iterable<DiscoveredBluetoothDevice>>
+
+    /**
      * @return flipper by id
      */
     fun findFlipperById(deviceId: String): Flow<DiscoveredBluetoothDevice>

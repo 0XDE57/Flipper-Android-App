@@ -35,6 +35,10 @@ class FlipperScannerImpl @Inject constructor(
     override val TAG = "FlipperScanner"
 
     override fun findFlipperDevices(): Flow<Iterable<DiscoveredBluetoothDevice>> {
+        return findFlipperDevices(false);
+    }
+
+    override fun findFlipperDevices(applyFilter: Boolean): Flow<Iterable<DiscoveredBluetoothDevice>> {
         val devices = ArrayList(getAlreadyBondedDevices())
         val mutex = Mutex()
 
@@ -54,8 +58,13 @@ class FlipperScannerImpl @Inject constructor(
                 DiscoveredBluetoothDevice(it)
             }
         ).filter {
-            it.address.startsWith(Constants.MAC_PREFIX) ||
-                it.name?.startsWith(Constants.DEVICENAME_PREFIX) == true
+            if (applyFilter) {
+                val addressMatch = it.address.startsWith(Constants.MAC_PREFIX)
+                val nameMatch = it.name?.startsWith(Constants.DEVICENAME_PREFIX) == true
+                addressMatch || nameMatch
+            } else {
+                true
+            }
         }.map { discoveredBluetoothDevice ->
             var mutableDevicesList: List<DiscoveredBluetoothDevice> = emptyList()
             mutex.withLock {
