@@ -8,8 +8,10 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.arkivanov.essenty.lifecycle.LifecycleOwner
 import com.flipperdevices.core.ui.dialog.composable.multichoice.FlipperMultiChoiceDialog
@@ -51,6 +53,8 @@ internal fun ComposableSearchingView(
         )
     }
 
+    var isFilterChecked by remember { mutableStateOf(false) }
+
     val searchStateBuilder = remember(
         context,
         scope,
@@ -64,7 +68,8 @@ internal fun ComposableSearchingView(
             scope = scope,
             viewModelSearch = bleDeviceViewModel,
             viewModelConnecting = pairViewModel,
-            permissionStateBuilder = permissionStateBuilder
+            permissionStateBuilder = permissionStateBuilder,
+            applyFilter = isFilterChecked
         ).also { lifecycleOwner.lifecycle.subscribe(it) }
     }
 
@@ -92,9 +97,18 @@ internal fun ComposableSearchingView(
         onSkipConnection = { pairViewModel.finishConnection(onEndAction = onFinishConnection) },
         onDeviceClick = pairViewModel::startConnectToDevice,
         onRefreshSearching = searchStateBuilder::resetByUser,
-        onResetTimeoutState = pairViewModel::resetConnection
+        onResetTimeoutState = pairViewModel::resetConnection,
+        //onCheckedChange = ::onCheckChange
+        onCheckedChange = { filter ->
+            isFilterChecked = filter
+        }
     )
 }
+
+/*
+private fun onCheckChange(filter: Boolean) {
+    //isFilterChecked = filter //Unresolved reference: isFilterChecked
+}*/
 
 @Composable
 private fun ComposableLocationEnableDialog(

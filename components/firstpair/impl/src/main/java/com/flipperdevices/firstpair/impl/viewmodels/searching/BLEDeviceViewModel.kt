@@ -33,14 +33,14 @@ class BLEDeviceViewModel @Inject constructor(
     fun getState(): StateFlow<ScanState> = state
 
     @Synchronized
-    fun startScanIfNotYet() {
+    fun startScanIfNotYet(applyFilter: Boolean) {
         if (!scanStarted.compareAndSet(false, true)) {
             info { "Scan already started, skip" }
             return
         }
 
         scanJob = viewModelScope.launch {
-            launch { startBLEDiscover() }
+            launch { startBLEDiscover(applyFilter) }
             delay(TIMEOUT_MS)
             // If we already 30s not found any devices
             if (state.value is ScanState.Searching) {
@@ -50,10 +50,10 @@ class BLEDeviceViewModel @Inject constructor(
         }
     }
 
-    private suspend fun startBLEDiscover() {
+    private suspend fun startBLEDiscover(applyFilter: Boolean) {
         info { "Start ble scan" }
         state.emit(ScanState.Searching)
-        scanner.findFlipperDevices(false)
+        scanner.findFlipperDevices(applyFilter)
             .catch { exception ->
                 error(exception) { "Exception while search devices" }
             }

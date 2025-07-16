@@ -32,7 +32,8 @@ class SearchStateBuilder(
     private val permissionStateBuilder: PermissionStateBuilder,
     private val viewModelSearch: BLEDeviceViewModel,
     viewModelConnecting: PairDeviceViewModel,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    private val applyFilter: Boolean,
 ) : LogTagProvider, Lifecycle.Callbacks {
     override val TAG = "SearchStateBuilder"
 
@@ -74,7 +75,7 @@ class SearchStateBuilder(
     fun resetByUser() {
         unfreezeInvalidate()
         viewModelSearch.stopScan()
-        viewModelSearch.startScanIfNotYet()
+        viewModelSearch.startScanIfNotYet(applyFilter)
     }
 
     fun getState(): StateFlow<SearchingState> = state
@@ -175,7 +176,7 @@ class SearchStateBuilder(
                 )
             )
 
-            is ScanState.Stopped -> viewModelSearch.startScanIfNotYet()
+            is ScanState.Stopped -> viewModelSearch.startScanIfNotYet(applyFilter)
             is ScanState.Founded -> state.emit(
                 SearchingState(
                     showSearching = true,
