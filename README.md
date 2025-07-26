@@ -24,6 +24,7 @@ Removed:
   - `MAC_PREFIX = "80:E1:26:"`
   - > Last 3 octets of BLE address are always fixed.
     > 4th octet of p/x furi_hal_version.ble_mac will be 0x26 on flippers manufactured in 2023+
+    > - #3723
 
 - [TODO?] maybe try to get the firmware update to pull optionally from unleashed or monument, instead of just ofw?
   - can we just point `FapDeveloperInformation.githubRepositoryLink` to what ever we want?
