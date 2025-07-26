@@ -17,7 +17,7 @@ Removed:
 
 # Features
 
-- display mac address in device list
+- display MAC address in device list
 - display MAC address for device in info card header
 - [WIP] toggle device filter by known flipper prefix (found in Constans.kt)
   - `DEVICENAME_PREFIX = "Flipper"`
