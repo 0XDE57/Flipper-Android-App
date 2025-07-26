@@ -99,6 +99,7 @@ private fun ComposableInfoCardContentInternalPreview() {
     )
     val deviceStatus = DeviceStatus.Connected(
         deviceName = "Flipper",
+        deviceMac = "00:00:00:00:00:00",
         batteryLevel = 0.4f,
         isCharging = true
     )

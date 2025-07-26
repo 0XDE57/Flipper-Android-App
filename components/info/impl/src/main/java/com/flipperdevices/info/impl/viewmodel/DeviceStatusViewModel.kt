@@ -58,6 +58,10 @@ class DeviceStatusViewModel @Inject constructor(
                 if (deviceName.isBlank()) {
                     deviceName = "Unknown"
                 }
+                var deviceMac = pairSettings.device_id
+                if (deviceMac.isBlank()) {
+                    deviceMac = "??:??:??:??:??"
+                }
                 val batteryLevel = flipperInformation.batteryLevel
                 if (batteryLevel == null) {
                     DeviceStatus.NoDeviceInformation(
@@ -67,6 +71,7 @@ class DeviceStatusViewModel @Inject constructor(
                 } else {
                     DeviceStatus.Connected(
                         deviceName,
+                        deviceMac,
                         batteryLevel,
                         flipperInformation.isCharging
                     )

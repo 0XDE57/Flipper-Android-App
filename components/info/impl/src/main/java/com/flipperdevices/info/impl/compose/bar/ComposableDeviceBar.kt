@@ -60,7 +60,7 @@ private fun FlipperInformation(deviceStatus: DeviceStatus) {
     ) {
         when (deviceStatus) {
             DeviceStatus.NoDevice -> NoDeviceText()
-            is DeviceStatus.NoDeviceInformation -> FlipperName(deviceStatus.deviceName)
+            is DeviceStatus.NoDeviceInformation -> FlipperName(deviceStatus.deviceName, "??:??:??:??:??:??")
             is DeviceStatus.Connected -> ConnectedText(deviceStatus)
         }
     }
@@ -98,13 +98,14 @@ private fun NoDeviceText() {
 @Composable
 private fun ConnectedText(deviceStatus: DeviceStatus.Connected) {
     val title = deviceStatus.deviceName
+    val deviceID = deviceStatus.deviceMac
     val batteryValue = deviceStatus.batteryLevel
     val isCharging = deviceStatus.isCharging
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        FlipperName(title)
+        FlipperName(title, deviceID)
         if (batteryValue > 0.0f && batteryValue <= 1.0f) {
             Row(
                 modifier = Modifier.padding(top = 6.dp),
@@ -127,11 +128,16 @@ private fun ConnectedText(deviceStatus: DeviceStatus.Connected) {
 }
 
 @Composable
-private fun ColumnScope.FlipperName(title: String) {
+private fun ColumnScope.FlipperName(title: String, deviceID: String) {
     Text(
         modifier = Modifier.padding(bottom = 3.dp),
         text = title,
         style = LocalTypography.current.buttonB16,
+        color = LocalPallet.current.onAppBar
+    )
+    Text(
+        text = deviceID,
+        style = LocalTypography.current.subtitleR12,
         color = LocalPallet.current.onAppBar
     )
     Text(
@@ -149,8 +155,8 @@ private fun ColumnScope.FlipperName(title: String) {
 private fun ComposableFlipperDeviceBarInformationPreview() {
     val deviceStatus = setOf(
         DeviceStatus.NoDevice,
-        DeviceStatus.Connected(deviceName = "Flipper", batteryLevel = 0.3f, isCharging = false),
-        DeviceStatus.Connected(deviceName = "Charge", batteryLevel = 0.7f, isCharging = true),
+        DeviceStatus.Connected(deviceName = "Flipper", deviceMac = "11:11:11:11:11:11", batteryLevel = 0.3f, isCharging = false),
+        DeviceStatus.Connected(deviceName = "Charge", deviceMac = "22:22:22:22:22:22", batteryLevel = 0.7f, isCharging = true),
         DeviceStatus.NoDeviceInformation(deviceName = "No device info", connectInProgress = false),
         DeviceStatus.NoDeviceInformation(deviceName = "Connecting...", connectInProgress = true)
     )

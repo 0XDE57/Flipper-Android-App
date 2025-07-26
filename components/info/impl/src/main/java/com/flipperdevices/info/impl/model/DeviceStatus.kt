@@ -9,6 +9,7 @@ sealed class DeviceStatus {
 
     data class Connected(
         val deviceName: String,
+        val deviceMac: String,
         val batteryLevel: Float,
         val isCharging: Boolean
     ) : DeviceStatus()
@@ -18,4 +19,11 @@ sealed class DeviceStatus {
         NoDevice -> ""
         is NoDeviceInformation -> deviceName
     }
+/* ^ only used by forgot. not by header
+    fun getFlipperMac(): String = when (this) {
+        is Connected -> deviceMac
+        NoDevice -> ""
+        is NoDeviceInformation -> deviceName
+    }*/
+
 }
