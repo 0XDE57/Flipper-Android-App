@@ -19,11 +19,4 @@ sealed class DeviceStatus {
         NoDevice -> ""
         is NoDeviceInformation -> deviceName
     }
-/* ^ only used by forgot. not by header
-    fun getFlipperMac(): String = when (this) {
-        is Connected -> deviceMac
-        NoDevice -> ""
-        is NoDeviceInformation -> deviceName
-    }*/
-
 }
