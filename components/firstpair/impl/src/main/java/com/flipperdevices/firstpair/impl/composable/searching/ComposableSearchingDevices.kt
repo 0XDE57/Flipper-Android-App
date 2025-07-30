@@ -84,6 +84,7 @@ fun ComposableSearchingDevices(
                 ComposableSearchItem(
                     text = name,
                     underText = device.address,
+                    rssi = device.rssi,
                     isConnecting = isConnecting,
                     onConnectionClick = { onDeviceClick(device, false) }
                 )

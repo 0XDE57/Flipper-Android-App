@@ -35,6 +35,7 @@ import com.flipperdevices.firstpair.impl.R
 fun ComposableSearchItem(
     text: String,
     underText: String,
+    rssi: Int,
     isConnecting: Boolean,
     modifier: Modifier = Modifier,
     onConnectionClick: () -> Unit
@@ -67,7 +68,7 @@ fun ComposableSearchItem(
                         end = 10.dp,
                         top = 3.dp
                     ),
-                    text = stringResource(R.string.firstpair_search_flipper_model_zero),
+                    text = rssi.toString(),// stringResource(R.string.firstpair_search_flipper_model_zero),
                     color = LocalPallet.current.text30,
                     style = LocalTypography.current.subtitleM12
                 )
@@ -130,6 +131,6 @@ fun ComposableSearchItem(
 @Composable
 private fun ComposableSearchItemPreview() {
     Column {
-        ComposableSearchItem(text = "Anmach0n", underText = "null", isConnecting = true, onConnectionClick = {})
+        ComposableSearchItem(text = "Anmach0n", underText = "null", 0, isConnecting = true, onConnectionClick = {})
     }
 }
