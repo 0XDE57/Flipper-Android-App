@@ -53,7 +53,14 @@ internal fun ComposableSearchingView(
         )
     }
 
-    var isFilterChecked by remember { mutableStateOf(false) }
+    var isFilterChecked by remember { mutableStateOf(true) }
+    val onFilterCheckedChange: (Boolean) -> Unit = { newValue ->
+        isFilterChecked = newValue
+        //note: rapid toggling causes scanning to stop and times out:
+        // App 'com.flipperdevices.app' is scanning too frequently
+        bleDeviceViewModel.stopScan()
+        bleDeviceViewModel.startScanIfNotYet(newValue)
+    }
 
     val searchStateBuilder = remember(
         context,
@@ -67,9 +74,9 @@ internal fun ComposableSearchingView(
             context = context,
             scope = scope,
             viewModelSearch = bleDeviceViewModel,
+            applyFilter = isFilterChecked,
             viewModelConnecting = pairViewModel,
-            permissionStateBuilder = permissionStateBuilder,
-            applyFilter = isFilterChecked
+            permissionStateBuilder = permissionStateBuilder
         ).also { lifecycleOwner.lifecycle.subscribe(it) }
     }
 
@@ -92,23 +99,16 @@ internal fun ComposableSearchingView(
 
     ComposableSearchingScreen(
         state = state,
+        isFilterChecked = isFilterChecked,
+        onCheckedChange = onFilterCheckedChange,
         onBack = onBack,
         onHelpClicking = onHelpClicking,
         onSkipConnection = { pairViewModel.finishConnection(onEndAction = onFinishConnection) },
         onDeviceClick = pairViewModel::startConnectToDevice,
         onRefreshSearching = searchStateBuilder::resetByUser,
-        onResetTimeoutState = pairViewModel::resetConnection,
-        //onCheckedChange = ::onCheckChange
-        onCheckedChange = { filter ->
-            isFilterChecked = filter
-        }
+        onResetTimeoutState = pairViewModel::resetConnection
     )
 }
-
-/*
-private fun onCheckChange(filter: Boolean) {
-    //isFilterChecked = filter //Unresolved reference: isFilterChecked
-}*/
 
 @Composable
 private fun ComposableLocationEnableDialog(

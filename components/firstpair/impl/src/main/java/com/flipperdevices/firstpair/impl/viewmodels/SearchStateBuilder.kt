@@ -31,9 +31,9 @@ class SearchStateBuilder(
     private val context: Context,
     private val permissionStateBuilder: PermissionStateBuilder,
     private val viewModelSearch: BLEDeviceViewModel,
+    private val applyFilter: Boolean,
     viewModelConnecting: PairDeviceViewModel,
     scope: CoroutineScope,
-    private val applyFilter: Boolean,
 ) : LogTagProvider, Lifecycle.Callbacks {
     override val TAG = "SearchStateBuilder"
 

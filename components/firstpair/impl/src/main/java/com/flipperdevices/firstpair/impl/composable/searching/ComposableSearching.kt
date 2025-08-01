@@ -1,6 +1,7 @@
 package com.flipperdevices.firstpair.impl.composable.searching
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,10 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,16 +26,16 @@ import com.flipperdevices.firstpair.impl.model.SearchingState
 @Composable
 fun ComposableSearchingScreen(
     state: SearchingState,
+    isFilterChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     onBack: () -> Unit,
     onHelpClicking: () -> Unit,
     onSkipConnection: () -> Unit,
     onDeviceClick: (DiscoveredBluetoothDevice, resetPair: Boolean) -> Unit,
     onRefreshSearching: () -> Unit,
     onResetTimeoutState: () -> Unit,
-    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isFilterChecked by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
             .background(LocalPallet.current.background)
@@ -65,8 +62,6 @@ fun ComposableFilterToggle(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isChecked by remember { mutableStateOf(false) }
-
     Row(
         modifier = Modifier.padding(
             end = 8.dp,
@@ -78,15 +73,11 @@ fun ComposableFilterToggle(
     ) {
         Text(
             modifier = modifier,
-            text = "Filter: ",
-            textAlign = TextAlign.Left
+            text = "Filter: "
         )
         Switch(
             checked = isChecked,
-            //onCheckedChange = onCheckedChange,
-            onCheckedChange = { newValue ->
-                isChecked = newValue
-            },
+            onCheckedChange = onCheckedChange,
             modifier = modifier
         )
     }
@@ -136,12 +127,13 @@ private fun ComposableSearchingScreenPreview() {
             showHelp = true,
             content = SearchingContent.Searching
         ),
+        isFilterChecked = false,
+        onCheckedChange = {},
         onBack = {},
         onHelpClicking = {},
         onSkipConnection = {},
         onRefreshSearching = {},
         onDeviceClick = { _, _ -> },
-        onResetTimeoutState = {},
-        onCheckedChange = {}
+        onResetTimeoutState = {}
     )
 }
