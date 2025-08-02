@@ -18,7 +18,7 @@ Removed:
 # Features
 - display rssi in device list
 - display MAC address in device list
-- display MAC address for device in info card header
+- display MAC address for connected device in info card header
 - toggle device filter by known flipper prefix (found in Constans.kt)
   - `DEVICENAME_PREFIX = "Flipper"`
   - `MAC_PREFIX = "80:E1:26:"`
