@@ -5,6 +5,10 @@ The build provided by F-Droid disables telemetry using flags:
 - `is_sentry_publish=false`
 - `is_metric_enabled=false`
 
+>2025-07-05 04:26:47,673 DEBUG: > `/home/vagrant/fdroidserver/gradlew-fdroid -Pis_google_feature=false -Pis_sentry_publish=false -Pis_metric_enabled=false clean`
+
+Source: https://f-droid.org/repo/com.flipperdevices.app_1878.log.gz
+
 This fork removes these dependencies from the code entirely, and adds a couple minor features.
 
 Removed:
