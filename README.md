@@ -20,8 +20,8 @@ Removed:
 
 
 # Features
-- display rssi in device search list on conect
-- display MAC address in device search list on conect
+- display rssi in device search list on connect
+- display MAC address in device search list on connect
 - display MAC address for connected device in info card header
 - toggle filter in device search list by known flipper prefix (found in Constans.kt)
   - `DEVICENAME_PREFIX = "Flipper"`
