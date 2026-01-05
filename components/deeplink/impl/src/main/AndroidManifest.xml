@@ -7,7 +7,7 @@
                 android:exported="true"
                 android:name="${splashScreenActivity}">
             <intent-filter
-                    android:autoVerify="true"
+                    android:autoVerify="false"
                     tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
 
