@@ -29,4 +29,6 @@ Removed:
   - > Last 3 octets of BLE address are always fixed.
     > 4th octet of p/x furi_hal_version.ble_mac will be 0x26 on flippers manufactured in 2023+
     > - #3723
+- disable `android:autoVerify` property calling `https://*/.well-known/assetlinks.json`, which sends android build and version in user-agent.
+  - https://developer.android.com/training/app-links/verify-applinks 
 - [TODO?] maybe try to get the firmware update to pull optionally from unleashed or monument, instead of just ofw?
