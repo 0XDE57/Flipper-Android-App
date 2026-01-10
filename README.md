@@ -28,6 +28,7 @@ Removed:
 - display rssi in device search list on connect
 - display MAC address in device search list on connect
 - display MAC address for connected device in info card header
+- show full device name (do not remove "Flipper" prefix when showing device names)
 - toggle filter in device search list by known flipper prefix (found in `Constans.kt`). This is useful if you change or randomize your Flipper's MAC.
   - `DEVICENAME_PREFIX = "Flipper"`
   - `MAC_PREFIX = "80:E1:26:"`
@@ -35,5 +36,5 @@ Removed:
     > 4th octet of p/x furi_hal_version.ble_mac will be 0x26 on flippers manufactured in 2023+
     > - #3723
 - disable `android:autoVerify` property calling `https://*/.well-known/assetlinks.json`, which sends android build and version in user-agent.
-  - https://developer.android.com/training/app-links/verify-applinks 
+  - https://developer.android.com/training/app-links/verify-applinks
 - [TODO?] maybe try to get the firmware update to pull optionally from unleashed or monument, instead of just ofw?
