@@ -76,7 +76,7 @@ fun ComposableSearchingDevices(
             ) { device ->
                 val name = remember(device) {
                     val deviceName = device.name ?: device.address
-                    deviceName.replaceFirst(Constants.DEVICENAME_PREFIX, "")
+                    deviceName
                 }
                 val isConnecting = remember(device.address, currentDeviceConnecting) {
                     device.address == currentDeviceConnecting

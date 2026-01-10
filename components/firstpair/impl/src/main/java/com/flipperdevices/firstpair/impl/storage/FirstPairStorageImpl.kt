@@ -51,9 +51,7 @@ class FirstPairStorageImpl @Inject constructor(
             if (deviceName != null) {
                 var deviceNameFormatted = deviceName.trim()
                 if (deviceNameFormatted.startsWith(Constants.DEVICENAME_PREFIX)) {
-                    deviceNameFormatted = deviceNameFormatted
-                        .replaceFirst(Constants.DEVICENAME_PREFIX, "")
-                        .trim()
+                    deviceNameFormatted = deviceNameFormatted.trim()
                 }
                 pairSetting = pairSetting.copy(device_name = deviceNameFormatted)
                 val device = FDeviceFlipperZeroBleModel(

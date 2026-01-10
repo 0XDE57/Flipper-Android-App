@@ -65,8 +65,7 @@ class BLESearchViewModel @Inject constructor(
 }
 
 private fun ServerDevice.toFDeviceFlipperZeroBleModel() = FDeviceFlipperZeroBleModel(
-    name = this.name?.replaceFirst(Constants.DEVICENAME_PREFIX, "")
-        ?.trim() ?: this.address,
+    name = this.name?.trim() ?: this.address,
     address = this.address,
     hardwareColor = FlipperZeroBle.HardwareColor.WHITE
 )
