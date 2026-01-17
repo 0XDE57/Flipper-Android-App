@@ -4,6 +4,15 @@
 The official flipper app collects data about your device. From: https://cdn.flipperzero.one/privacy-policy.html
 >Mobile Device Data. We automatically collect device information (such as your mobile device ID, model, and manufacturer), operating system, version information and system configuration information, device and application identification numbers, browser type and version, hardware model Internet service provider and/or mobile carrier, and Internet Protocol (IP) address (or proxy server). If you are using our application(s), we may also collect information about the phone network associated with your mobile device, your mobile deviceâ€™s operating system or platform, the type of mobile device you use, your mobile deviceâ€™s unique device ID, and information about the features of our application(s) you accessed.
 
+Even the official "nogms" build provided by Flipper still enables metric and sentry (countly): https://github.com/flipperdevices/Flipper-Android-App/blob/dev/.github/workflows/targets/gh_nogms.env
+```
+ORG_GRADLE_PROJECT_is_google_feature=false
+ORG_GRADLE_PROJECT_is_sentry_publish=true
+ORG_GRADLE_PROJECT_source_install=github
+ORG_GRADLE_PROJECT_is_metric_enabled=true
+ORG_GRADLE_PROJECT_current_flavor_type=PROD
+```
+Which still tries to contact `metric.flipp.dev/report` & `countly.flipp.dev`.
 
 The build provided on F-Droid disables telemetry using flags: 
 - `is_google_feature=false`
@@ -16,10 +25,10 @@ Source: https://f-droid.org/repo/com.flipperdevices.app_1878.log.gz
 
 **This privacy enhanced fork ensures nothing is collected by removing these dependencies from the code entirely, and adds a couple minor features.**
 
-Removed:
-- countly
+Removed all code and references to:
+- countly (sentry)
 - shake2report
-- metric
+- metric -> clickhouse
 - gms
 - firebase
 
@@ -35,6 +44,12 @@ Removed:
   - > Last 3 octets of BLE address are always fixed.
     > 4th octet of p/x furi_hal_version.ble_mac will be 0x26 on flippers manufactured in 2023+
     > - #3723
-- disable `android:autoVerify` property calling `https://*/.well-known/assetlinks.json`, which sends android build and version in user-agent.
+- disable `android:autoVerify` property calling `https://*/.well-known/assetlinks.json`, which sends android build and version in user-agent to: 
+  ```
+  <data android:host="dev.flpr.app" />
+  <data android:host="flpr.app" />
+  <data android:host="my.flipp.dev" />
+  <data android:host="lab.flipper.net" />
+  ```
   - https://developer.android.com/training/app-links/verify-applinks
 - [TODO?] maybe try to get the firmware update to pull optionally from unleashed or monument, instead of just ofw?
